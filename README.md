@@ -55,6 +55,14 @@ app.get("/", (req, res) => {
 
 require("./app/routes/tutorial")(app);
 
+// sync database
+const conn = require("./app/models/connection");
+conn.sequelize.sync().then(() => {
+    console.log("Synced db.");
+}).catch((err) => {
+    console.log(`Failed to sync db: ${err}`);
+});
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
